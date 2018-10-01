@@ -24,10 +24,34 @@ values.  To help out, we've imported `Rect`. Go check the docs for Rect
 import React from "react";
 import { createPortal } from "react-dom";
 import Rect from "@reach/rect";
+import PropTypes from "prop-types";
 
 class Portal extends React.Component {
+  elPortal = null;
+
+  state = {
+    mounted: false,
+  }
+
+  componentDidMount() {
+    this.elPortal = document.createElement('el-portal');
+    document.body.appendChild(this.elPortal);
+    this.setState({ mounted: true })
+  }
+
+  componentWillUnmount() {
+    document.body.removeChild(this.elPortal);
+  }
+
   render() {
-    return this.props.children;
+    let elPortal = null;
+    if (this.state.mounted) {
+      elPortal = createPortal(
+        this.props.children,
+        this.elPortal,
+      );
+    }
+    return elPortal;
   }
 }
 
