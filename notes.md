@@ -21,3 +21,4 @@
   - best for dynamic composition (using ternaries)
   - look ugly but more composable
 - combine the two
+- `hoistStatics` from `hoist-static-props`
