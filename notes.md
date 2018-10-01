@@ -11,3 +11,13 @@
 - why children in solution rather than explicitly passing title variable
 
 ### 2
+
+- HOCs
+  - function returns class that wraps component `function higherOrderComp() { return class App extends Component { ... } }`
+  - composition happens at definition time (static): e.g. `export default withThing(withOtherThing(App))`
+  - harmful things about mixins and HOCs: implicit dependencies and namespace collisions
+  - most useful when doing static analysis
+- render props
+  - best for dynamic composition (using ternaries)
+  - look ugly but more composable
+- combine the two
