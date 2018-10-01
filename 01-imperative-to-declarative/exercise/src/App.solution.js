@@ -26,7 +26,7 @@ class App extends Component {
 
     return (
       <div className="app">
-        <DocumentTitle>{`Todos (${incomplete})`}</DocumentTitle>
+        <DocumentTitle><div>{`Todos (${incomplete})`}</div><div>test</div></DocumentTitle>
 
         <h1>Todos ({incomplete})</h1>
 
