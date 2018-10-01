@@ -31,3 +31,4 @@
   - `React.Children.count()` tells you how many
   - `.forEach`
   - `.toArray()`
+- if parent needs to use child as data (e.g. dropdown needing children as label on the initial render) can't use context API
