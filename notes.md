@@ -50,3 +50,9 @@
 
 - diff the dom, helpful in this case in a `componentDidUpdate` check for managing focus or another DOM API that React doesn't render to
 - similar to `componentWillUpdate`, but one would have to assign to the component instance previously which is harder for react to track and concurrently render
+
+### 07 getDerivedStateFromProps
+
+- switched from `componentWillReceiveProps` because react is unable to reliably replay state changes, but `static` method of gDSFP allows that
+- instead of doing this, one could just add a key based on id (e.g. contact id for lecture example), and react knows that if the key changes the component has changed
+- ryan has only needed it for

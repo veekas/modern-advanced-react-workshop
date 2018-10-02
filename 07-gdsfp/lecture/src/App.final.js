@@ -10,6 +10,7 @@ class Fetch extends Component {
     url: this.props.url
   };
 
+  // gets called for every render, even initial render
   static getDerivedStateFromProps(props, state) {
     if (props.url !== state.url) {
       return {

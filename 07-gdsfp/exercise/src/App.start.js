@@ -6,7 +6,8 @@ const getQuote = () => {
 
 class App extends Component {
   state = {
-    price: getQuote()
+    direction: null,
+    price: getQuote(),
   };
 
   componentDidMount() {
@@ -14,22 +15,46 @@ class App extends Component {
   }
 
   fetch = async () => {
-    this.setState({ price: getQuote() });
+    const price = getQuote();
+    this.setState({ price, direction: this.state.price > price ? 'down' : 'up' });
   };
 
   render() {
     return (
       <div style={{ textAlign: "center" }}>
         <h1>Stock Price</h1>
-        <PriceDisplay price={this.state.price} />
+        <PriceDisplay direction={this.state.direction} price={this.state.price} />
       </div>
     );
   }
 }
 
+//
+
 class PriceDisplay extends React.Component {
+  // state = {
+    // direction: null,
+  //   price: this.props.price,
+  // }
+
+  // static getDerivedStateFromProps(props, state) {
+  //   if (props.price < state.price) {
+  //     return {
+  //       direction: 'down',
+  //       price: props.price,
+  //     }
+  //   } else if (props.price > state.price) {
+  //     return {
+  //       direction: 'up',
+  //       price: props.price,
+  //     }
+  //   }
+  //   return null;
+  // }
+
   render() {
-    let direction = "up"; // get this from state instead
+    // const { direction } = this.state;
+    const { direction } = this.props;
     return (
       <div
         style={{
