@@ -33,7 +33,7 @@
   - `.toArray()`
 - if parent needs to use child as data (e.g. dropdown needing children as label on the initial render) can't use context API
 
-### wia-aria
+### 05 wia-aria
 
 - best practices
   - when page changes, focus should move (most react routers don't do this by default)
@@ -45,3 +45,8 @@
 - buttons that are dropdowns needs to be given a role of listbox (`aria-haspopup` as well)
 - generating unique ids will make server rendering not work right, use idx to create ids
 - recap: focus management, keyboard interaction, aria roles
+
+### 06 get snapshot before update
+
+- diff the dom, helpful in this case in a `componentDidUpdate` check for managing focus or another DOM API that React doesn't render to
+- similar to `componentWillUpdate`, but one would have to assign to the component instance previously which is harder for react to track and concurrently render
