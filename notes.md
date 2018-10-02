@@ -32,3 +32,16 @@
   - `.forEach`
   - `.toArray()`
 - if parent needs to use child as data (e.g. dropdown needing children as label on the initial render) can't use context API
+
+### wia-aria
+
+- best practices
+  - when page changes, focus should move (most react routers don't do this by default)
+  - use this for reference: https://www.w3.org/WAI/
+  - https://webaim.org/ does a11y audits
+- `tabIndex='-1'` (or any number below 0) removes element from tabbable list
+- `onKeyDown` when checking for enter key, `onKeyUp` when space bar
+- screen readers - NVDA for Firefox is free, Jaws (sp?) for Edge costs about $1000, and something for Safari that isn't often used
+- buttons that are dropdowns needs to be given a role of listbox (`aria-haspopup` as well)
+- generating unique ids will make server rendering not work right, use idx to create ids
+- recap: focus management, keyboard interaction, aria roles

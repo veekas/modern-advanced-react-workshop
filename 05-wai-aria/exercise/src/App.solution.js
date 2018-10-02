@@ -29,19 +29,19 @@ class Portal extends React.Component {
 }
 
 const findSelectionIndex = (children, value) => {
-  let preSelectionIndex = -1;
+  let highlightedIndex = -1;
   React.Children.forEach(children, (child, index) => {
     if (child.props.value === value) {
-      preSelectionIndex = index;
+      highlightedIndex = index;
     }
   });
-  return preSelectionIndex;
+  return highlightedIndex;
 };
 
-const findValueFromIndex = (children, preSelectionIndex) => {
+const findValueFromIndex = (children, highlightedIndex) => {
   let value;
   React.Children.forEach(children, (child, index) => {
-    if (index === preSelectionIndex) {
+    if (index === highlightedIndex) {
       value = child.props.value;
     }
   });
@@ -58,7 +58,7 @@ class Select extends React.Component {
   state = {
     value: this.props.defaultValue,
     isOpen: false,
-    preSelectionIndex: findSelectionIndex(
+    highlightedIndex: findSelectionIndex(
       this.props.children,
       this.props.defaultValue
     ),
@@ -75,7 +75,7 @@ class Select extends React.Component {
   open = index => {
     this.setState({
       isOpen: true,
-      preSelectionIndex:
+      highlightedIndex:
         index != null
           ? index
           : findSelectionIndex(
@@ -95,7 +95,7 @@ class Select extends React.Component {
 
   handleButtonKeyDown = event => {
     if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-      event.preventDefault();
+      event.preventDefault(); // prevents browser from scrolling down the page
       this.open();
     }
   };
@@ -108,19 +108,19 @@ class Select extends React.Component {
     }
 
     if (event.key === "ArrowDown") {
-      const { preSelectionIndex } = this.state;
+      const { highlightedIndex } = this.state;
       const { children } = this.props;
-      let nextIndex = preSelectionIndex + 1;
+      let nextIndex = highlightedIndex + 1;
       if (nextIndex < React.Children.count(children)) {
-        this.setState({ preSelectionIndex: nextIndex });
+        this.setState({ highlightedIndex: nextIndex });
       }
     }
 
     if (event.key === "ArrowUp") {
-      const { preSelectionIndex } = this.state;
-      let nextIndex = preSelectionIndex - 1;
+      const { highlightedIndex } = this.state;
+      let nextIndex = highlightedIndex - 1;
       if (nextIndex !== -1) {
-        this.setState({ preSelectionIndex: nextIndex });
+        this.setState({ highlightedIndex: nextIndex });
       }
     }
 
@@ -143,8 +143,8 @@ class Select extends React.Component {
   }
 
   selectAndClose = () => {
-    const { preSelectionIndex } = this.state;
-    const value = findValueFromIndex(this.props.children, preSelectionIndex);
+    const { highlightedIndex } = this.state;
+    const value = findValueFromIndex(this.props.children, highlightedIndex);
     if (this.props.onChange) {
       this.props.onChange(value);
     }
@@ -156,7 +156,7 @@ class Select extends React.Component {
 
   render() {
     const { labelledby } = this.props;
-    const { isOpen, preSelectionIndex } = this.state;
+    const { isOpen, highlightedIndex } = this.state;
     const { rootId } = this;
     let label;
     let activedescendant;
@@ -165,7 +165,7 @@ class Select extends React.Component {
       const { value } = this.isControlled() ? this.props : this.state;
       const id = child.props.id || `${rootId}-${index}`;
       const isSelected = child.props.value === value;
-      const isSelectionIndex = index === preSelectionIndex;
+      const isSelectionIndex = index === highlightedIndex;
 
       if (isSelected) {
         label = child.props.children;
@@ -181,7 +181,7 @@ class Select extends React.Component {
         isSelectionIndex,
         onPreSelect: () => {
           if (!isSelectionIndex) {
-            this.setState({ preSelectionIndex: index });
+            this.setState({ highlightedIndex: index });
           }
         },
         onSelect: this.selectAndClose
@@ -198,13 +198,13 @@ class Select extends React.Component {
                 ref(node);
               }}
               className="label"
-              aria-haspopup="true"
+              aria-haspopup="listbox"
               aria-expanded={isOpen}
               aria-labelledby={labelledby}
               onClick={() => {
                 // don't like the flash when the mouseMove hits on click,
                 // so we send 0 in
-                this.open(0);
+                this.open();
               }}
               onKeyDown={this.handleButtonKeyDown}
             >
