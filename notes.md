@@ -56,3 +56,13 @@
 - switched from `componentWillReceiveProps` because react is unable to reliably replay state changes, but `static` method of gDSFP allows that
 - instead of doing this, one could just add a key based on id (e.g. contact id for lecture example), and react knows that if the key changes the component has changed
 - ryan has only needed it for
+
+### 08 react suspence
+
+- spinners are used because pages render before components are finished loading, especially a problem on slow networks
+- ember vs. react (ember waits for page to load before rendering it)
+- fast network: waiting feels better, slow: spinners
+- react suspense waits a certain amount of time and then renders spinners for what is left
+- new idea: resources
+  - `simple-cache-provider`
+  - `createResource()`: `.read` which loads sequentially, `.preload` loads concurrently ()
